@@ -10,12 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_05_07_030439) do
+ActiveRecord::Schema.define(version: 2021_05_07_061532) do
 
   create_table "cells", force: :cascade do |t|
-    t.string "contents"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.boolean "bomb"
+    t.integer "number"
+    t.string "location"
   end
 
   create_table "scores", force: :cascade do |t|
