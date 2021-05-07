@@ -8,4 +8,12 @@ class Cell < ApplicationRecord
     Array.new(10) { Array.new(10) {Cell.create(contents: " ")} }
   end
 
+  def self.pick_mines
+    mines = Cell.all.sample(15)
+    mines.each do |cell|
+      cell.contents = "&#128163;"
+      cell.save
+    end
+  end
+
 end
