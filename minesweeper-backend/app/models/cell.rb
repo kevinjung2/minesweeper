@@ -3,7 +3,7 @@
 
 class Cell < ApplicationRecord
 
-  GAME_BOARD = Array.new(10) { Array.new(10) {Cell.find_or_create_by(number: 0, bomb: false)} }
+  GAME_BOARD = Array.new(10) { Array.new(10) {Cell.create(number: 0, bomb: false)} }
   BOMB = "&#128163;"
   FLAG = "&#128681;"
   @@mines = []
@@ -36,8 +36,8 @@ class Cell < ApplicationRecord
 
   def self.fill_contents
     @@mines.each do |cell|
-      row_number = cell.location.split("-")[0]
-      column_number = cell.location.split("-")[1]
+      row_number = cell.location.split("-")[0].to_i
+      column_number = cell.location.split("-")[1].to_i
       if row_number == 0
         #check only below
         if column_number == 0
@@ -159,6 +159,14 @@ class Cell < ApplicationRecord
         end
       end
     end
+  end
+
+  def self.mines
+    @@mines
+  end
+
+  def self.game_board
+    GAME_BOARD
   end
 
 end
