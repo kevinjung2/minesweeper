@@ -47,6 +47,7 @@ class Cell {
   }
 
   static search(e) {
+    e.target.class = 'clicked'
     Cell.fetchCell(e.target.id)
   }
 
