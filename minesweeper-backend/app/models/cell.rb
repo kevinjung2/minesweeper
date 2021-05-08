@@ -6,6 +6,7 @@ class Cell < ApplicationRecord
   BOMB = "&#128163;"
   FLAG = "&#128681;"
   @@mines = []
+  @@board = []
 
   def self.new_game
     self.all.each do |cell|
@@ -13,6 +14,9 @@ class Cell < ApplicationRecord
       cell.number = 0
       cell.save
     end
+    pick_mines
+    fill_contents
+    game_board
   end
 
   def self.pick_mines
@@ -24,7 +28,7 @@ class Cell < ApplicationRecord
   end
 
   def self.give_location
-    GAME_BOARD.each_with_index do |row, row_number|
+    game_board.each_with_index do |row, row_number|
       row.each_with_index do |cell, column_number|
         cell.location = "#{row_number}-#{column_number}"
         cell.save
@@ -40,32 +44,32 @@ class Cell < ApplicationRecord
         #check only below
         if column_number == 0
           #check only below and to the right
-          GAME_BOARD[0][1].number += 1
-          GAME_BOARD[0][1].save
-          GAME_BOARD[1][0].number += 1
-          GAME_BOARD[1][0].save
-          GAME_BOARD[1][1].number += 1
-          GAME_BOARD[1][1].save
+          game_board[0][1].number += 1
+          game_board[0][1].save
+          game_board[1][0].number += 1
+          game_board[1][0].save
+          game_board[1][1].number += 1
+          game_board[1][1].save
         elsif column_number > 0 && column_number < 9
           #check below and both sides
-          GAME_BOARD[0][column_number + 1].number += 1
-          GAME_BOARD[0][column_number + 1].save
-          GAME_BOARD[0][column_number - 1].number += 1
-          GAME_BOARD[0][column_number - 1].save
-          GAME_BOARD[1][column_number].number += 1
-          GAME_BOARD[1][column_number].save
-          GAME_BOARD[1][column_number + 1].number += 1
-          GAME_BOARD[1][column_number + 1].save
-          GAME_BOARD[1][column_number - 1].number += 1
-          GAME_BOARD[1][column_number - 1].save
+          game_board[0][column_number + 1].number += 1
+          game_board[0][column_number + 1].save
+          game_board[0][column_number - 1].number += 1
+          game_board[0][column_number - 1].save
+          game_board[1][column_number].number += 1
+          game_board[1][column_number].save
+          game_board[1][column_number + 1].number += 1
+          game_board[1][column_number + 1].save
+          game_board[1][column_number - 1].number += 1
+          game_board[1][column_number - 1].save
         elsif column_number == 9
           #check only below and to the left
-          GAME_BOARD[0][8].number += 1
-          GAME_BOARD[0][8].save
-          GAME_BOARD[1][9].number += 1
-          GAME_BOARD[1][9].save
-          GAME_BOARD[1][8].number += 1
-          GAME_BOARD[1][8].save
+          game_board[0][8].number += 1
+          game_board[0][8].save
+          game_board[1][9].number += 1
+          game_board[1][9].save
+          game_board[1][8].number += 1
+          game_board[1][8].save
         end
       elsif row_number > 0 && row_number < 9
         #check above and below
@@ -73,87 +77,87 @@ class Cell < ApplicationRecord
           #check above and below only to the right
 
           #checks directly to the right
-          GAME_BOARD[row_number][column_number + 1].number += 1
-          GAME_BOARD[row_number][column_number + 1].save
+          game_board[row_number][column_number + 1].number += 1
+          game_board[row_number][column_number + 1].save
           #checks down and diagonal to the right
-          GAME_BOARD[row_number + 1][column_number + 1].number += 1
-          GAME_BOARD[row_number + 1][column_number + 1].save
-          GAME_BOARD[row_number + 1][column_number].number += 1
-          GAME_BOARD[row_number + 1][column_number].save
+          game_board[row_number + 1][column_number + 1].number += 1
+          game_board[row_number + 1][column_number + 1].save
+          game_board[row_number + 1][column_number].number += 1
+          game_board[row_number + 1][column_number].save
           #checks up and diagonal to the right
-          GAME_BOARD[row_number - 1][column_number + 1].number += 1
-          GAME_BOARD[row_number - 1][column_number + 1].save
-          GAME_BOARD[row_number - 1][column_number].number += 1
-          GAME_BOARD[row_number - 1][column_number].save
+          game_board[row_number - 1][column_number + 1].number += 1
+          game_board[row_number - 1][column_number + 1].save
+          game_board[row_number - 1][column_number].number += 1
+          game_board[row_number - 1][column_number].save
         elsif column_number > 0 && column_number < 9
           #check above and below and both sides
 
           #checks directly to the left and right
-          GAME_BOARD[row_number][column_number - 1].number += 1
-          GAME_BOARD[row_number][column_number - 1].save
-          GAME_BOARD[row_number][column_number + 1].number += 1
-          GAME_BOARD[row_number][column_number + 1].save
+          game_board[row_number][column_number - 1].number += 1
+          game_board[row_number][column_number - 1].save
+          game_board[row_number][column_number + 1].number += 1
+          game_board[row_number][column_number + 1].save
           #checks down and diagonal
-          GAME_BOARD[row_number + 1][column_number - 1].number += 1
-          GAME_BOARD[row_number + 1][column_number - 1].save
-          GAME_BOARD[row_number + 1][column_number + 1].number += 1
-          GAME_BOARD[row_number + 1][column_number + 1].save
-          GAME_BOARD[row_number + 1][column_number].number += 1
-          GAME_BOARD[row_number + 1][column_number].save
+          game_board[row_number + 1][column_number - 1].number += 1
+          game_board[row_number + 1][column_number - 1].save
+          game_board[row_number + 1][column_number + 1].number += 1
+          game_board[row_number + 1][column_number + 1].save
+          game_board[row_number + 1][column_number].number += 1
+          game_board[row_number + 1][column_number].save
           #checks up and diagonal
-          GAME_BOARD[row_number - 1][column_number - 1].number += 1
-          GAME_BOARD[row_number - 1][column_number - 1].save
-          GAME_BOARD[row_number - 1][column_number + 1].number += 1
-          GAME_BOARD[row_number - 1][column_number + 1].save
-          GAME_BOARD[row_number - 1][column_number].number += 1
-          GAME_BOARD[row_number - 1][column_number].save
+          game_board[row_number - 1][column_number - 1].number += 1
+          game_board[row_number - 1][column_number - 1].save
+          game_board[row_number - 1][column_number + 1].number += 1
+          game_board[row_number - 1][column_number + 1].save
+          game_board[row_number - 1][column_number].number += 1
+          game_board[row_number - 1][column_number].save
         elsif column_number == 9
           #check above and below only to the left
 
           #checks directly to the left
-          GAME_BOARD[row_number][column_number - 1].number += 1
-          GAME_BOARD[row_number][column_number - 1].save
+          game_board[row_number][column_number - 1].number += 1
+          game_board[row_number][column_number - 1].save
           #checks down and diagonal to the left
-          GAME_BOARD[row_number + 1][column_number - 1].number += 1
-          GAME_BOARD[row_number + 1][column_number - 1].save
-          GAME_BOARD[row_number + 1][column_number].number += 1
-          GAME_BOARD[row_number + 1][column_number].save
+          game_board[row_number + 1][column_number - 1].number += 1
+          game_board[row_number + 1][column_number - 1].save
+          game_board[row_number + 1][column_number].number += 1
+          game_board[row_number + 1][column_number].save
           #checks up and diagonal to the left
-          GAME_BOARD[row_number - 1][column_number - 1].number += 1
-          GAME_BOARD[row_number - 1][column_number - 1].save
-          GAME_BOARD[row_number - 1][column_number].number += 1
-          GAME_BOARD[row_number - 1][column_number].save
+          game_board[row_number - 1][column_number - 1].number += 1
+          game_board[row_number - 1][column_number - 1].save
+          game_board[row_number - 1][column_number].number += 1
+          game_board[row_number - 1][column_number].save
         end
       elsif row_number == 9
         #check only above
         if column_number == 0
           #check only above and to the right
-          GAME_BOARD[9][1].number += 1
-          GAME_BOARD[9][1].save
-          GAME_BOARD[8][0].number += 1
-          GAME_BOARD[8][0].save
-          GAME_BOARD[8][1].number += 1
-          GAME_BOARD[8][1].save
+          game_board[9][1].number += 1
+          game_board[9][1].save
+          game_board[8][0].number += 1
+          game_board[8][0].save
+          game_board[8][1].number += 1
+          game_board[8][1].save
         elsif column_number > 0 && column_number < 9
           #check above and both sides
-          GAME_BOARD[9][column_number + 1].number += 1
-          GAME_BOARD[9][column_number + 1].save
-          GAME_BOARD[9][column_number - 1].number += 1
-          GAME_BOARD[9][column_number - 1].save
-          GAME_BOARD[8][column_number].number += 1
-          GAME_BOARD[8][column_number].save
-          GAME_BOARD[8][column_number + 1].number += 1
-          GAME_BOARD[8][column_number + 1].save
-          GAME_BOARD[8][column_number - 1].number += 1
-          GAME_BOARD[8][column_number - 1].save
+          game_board[9][column_number + 1].number += 1
+          game_board[9][column_number + 1].save
+          game_board[9][column_number - 1].number += 1
+          game_board[9][column_number - 1].save
+          game_board[8][column_number].number += 1
+          game_board[8][column_number].save
+          game_board[8][column_number + 1].number += 1
+          game_board[8][column_number + 1].save
+          game_board[8][column_number - 1].number += 1
+          game_board[8][column_number - 1].save
         elsif column_number == 9
           #check only above and to the left
-          GAME_BOARD[9][8].number += 1
-          GAME_BOARD[9][8].save
-          GAME_BOARD[8][9].number += 1
-          GAME_BOARD[8][9].save
-          GAME_BOARD[8][8].number += 1
-          GAME_BOARD[8][8].save
+          game_board[9][8].number += 1
+          game_board[9][8].save
+          game_board[8][9].number += 1
+          game_board[8][9].save
+          game_board[8][8].number += 1
+          game_board[8][8].save
         end
       end
     end
@@ -164,18 +168,21 @@ class Cell < ApplicationRecord
   end
 
   def self.game_board
-    board = []
-    counter = 1
+    if @@board.empty?
+      counter = 1
 
-    10.times do
-      inner_array = []
       10.times do
-        inner_array.push(Cell.find_by_id(counter))
-        counter += 1
+        inner_array = []
+        10.times do
+          inner_array.push(Cell.find_by_id(counter))
+          counter += 1
+        end
+        @@board.push(inner_array)
       end
-      game_board.push(inner_array)
+      @@board
+    else
+      @@board
     end
-    board
   end
 
 end
