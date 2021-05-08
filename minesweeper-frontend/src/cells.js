@@ -9,7 +9,7 @@ class Cell {
 
   display() {
     if (this.bomb) {
-      return "&#128163;"
+      return "💣"
     } else if (this.number === 0) {
       return " "
     } else {
@@ -19,31 +19,35 @@ class Cell {
 
   appendCell() {
     let td = document.getElementById(`${this.location}`)
-    td.innerText = this.display
+    td.innerText = this.display()
   }
 
   static fetchCell(location) {
     fetch(`http://localhost:3000/cells/${location}`)
       .then(jsonToJS)
-      .then(appendCells)
+      .then(this.appendCells)
   }
 
   static fetchCells() {
     fetch("http://localhost:3000/cells")
     .then(jsonToJS)
-    .then(appendCells)
+    .then(this.appendCells)
   }
 
   static appendCells(cells) {
-    debugger
-    if (Array.is_array(cells)) {
+    if (Array.isArray(cells)) {
       for (const cell of cells) {
         let newCell = new Cell(cell)
+        newCell.appendCell()
       }
     } else {
       let newCell = new Cell(cells)
+      newCell.appendCell()
     }
-    newCell.appendCell()
+  }
+
+  static search(e) {
+    Cell.fetchCell(e.target.id)
   }
 
 
