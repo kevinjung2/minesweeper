@@ -8,11 +8,15 @@ table {
 }
 
 tr {
-  height: 9%;
+  position: relative;
+  height: 10%;
 }
 
 td {
-  width: 9%;
+  position: relative;
+  line-height: 1.75em;
+  width: 10%;
+  height: 10%;
   border: solid 2px;
   border-color: black;
   background: grey;
@@ -48,4 +52,8 @@ button {
 
 .clicked {
   background: white;
+}
+
+.bomb {
+  background: red;
 }

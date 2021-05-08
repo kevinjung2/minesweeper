@@ -20,6 +20,11 @@ class Cell {
   appendCell() {
     let td = document.getElementById(`${this.location}`)
     td.innerText = this.display()
+    if (this.bomb) {
+      td.className = 'bomb'
+    } else {
+      td.className = 'clicked'
+    }
   }
 
   static fetchCell(location) {
@@ -47,7 +52,6 @@ class Cell {
   }
 
   static search(e) {
-    e.target.class = 'clicked'
     Cell.fetchCell(e.target.id)
   }
 
