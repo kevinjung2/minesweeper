@@ -5,7 +5,6 @@ class Cell {
     this.number = cell.number
     this.location = cell.location
     this.flag = false
-    this.visited = false
   }
 
   display() {
@@ -43,33 +42,10 @@ class Cell {
     } else {
       newCell = new Cell(cells)
     }
-    if (newCell.bomb) {
-      Cell.showBombs()
-    } else if (newCell.number === 0) {
-      Cell.floodFill(newCell)
-    } else {
-      newCell.appendCell()
-    }
+    newCell.appendCell()
   }
 
   static search(e) {
     Cell.fetchCell(e.target.id)
   }
-
-  static showBombs() {
-    fetch('http://localhost:3000/cells')
-    .then(jsonToJS)
-    .then((bombs) => {
-      for(const bomb of bombs) {
-        let newCell = new Cell(bomb)
-        newCell.appendCell()
-      }
-    })
-  }
-
-  static floodFill(startingCell) {
-
-  }
-
-
 }

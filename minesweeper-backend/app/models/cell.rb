@@ -189,4 +189,20 @@ class Cell < ApplicationRecord
     end
   end
 
+  def self.returned_cells(location)
+    returned_cells = []
+    startingCell = Cell.find_by(location: location)
+    if startingCell.bomb
+      return self.mines
+    elsif startingCell.number > 0
+      return startingCell
+    else
+      self.floodFill(startingCell)
+    end
+  end
+
+  def self.floodFill(startingCell)
+
+  end
+
 end
