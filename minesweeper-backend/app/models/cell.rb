@@ -164,7 +164,11 @@ class Cell < ApplicationRecord
   end
 
   def self.mines
-    @@mines
+    if @@mines.empty?
+      @@mines = Cell.where(bomb: true)
+    else
+      @@mines
+    end
   end
 
   def self.game_board

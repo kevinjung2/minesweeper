@@ -5,6 +5,7 @@ class Cell {
     this.number = cell.number
     this.location = cell.location
     this.flag = false
+    this.visited = false
   }
 
   display() {
@@ -33,12 +34,6 @@ class Cell {
       .then(this.appendCells)
   }
 
-  static fetchCells() {
-    fetch("http://localhost:3000/cells")
-    .then(jsonToJS)
-    .then(this.appendCells)
-  }
-
   static appendCells(cells) {
     let newCell;
     if (Array.isArray(cells)) {
@@ -49,16 +44,31 @@ class Cell {
       newCell = new Cell(cells)
     }
     if (newCell.bomb) {
-      this.showBombs()
+      Cell.showBombs()
     } else if (newCell.number === 0) {
-      this.floodFill(newCell)
+      Cell.floodFill(newCell)
     } else {
-      
+      newCell.appendCell()
     }
   }
 
   static search(e) {
     Cell.fetchCell(e.target.id)
+  }
+
+  static showBombs() {
+    fetch('http://localhost:3000/cells')
+    .then(jsonToJS)
+    .then((bombs) => {
+      for(const bomb of bombs) {
+        let newCell = new Cell(bomb)
+        newCell.appendCell()
+      }
+    })
+  }
+
+  static floodFill(startingCell) {
+
   }
 
 

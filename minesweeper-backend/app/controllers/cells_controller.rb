@@ -1,7 +1,7 @@
 class CellsController < ApplicationController
 
   def index
-    render json: Cell.all, except: [:created_at, :updated_at]
+    render json: Cell.mines, except: [:created_at, :updated_at]
   end
 
   def show
