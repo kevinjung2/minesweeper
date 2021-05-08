@@ -40,14 +40,20 @@ class Cell {
   }
 
   static appendCells(cells) {
+    let newCell;
     if (Array.isArray(cells)) {
       for (const cell of cells) {
-        let newCell = new Cell(cell)
-        newCell.appendCell()
+        newCell = new Cell(cell)
       }
     } else {
-      let newCell = new Cell(cells)
-      newCell.appendCell()
+      newCell = new Cell(cells)
+    }
+    if (newCell.bomb) {
+      this.showBombs()
+    } else if (newCell.number === 0) {
+      this.floodFill(newCell)
+    } else {
+      
     }
   }
 
