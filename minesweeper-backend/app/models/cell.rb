@@ -3,13 +3,11 @@
 
 class Cell < ApplicationRecord
 
-  GAME_BOARD = Array.new(10) { Array.new(10) {Cell.create(number: 0, bomb: false)} }
   BOMB = "&#128163;"
   FLAG = "&#128681;"
   @@mines = []
 
   def self.new_game
-    GAME_BOARD
     self.all.each do |cell|
       cell.bomb = false
       cell.number = 0
@@ -166,7 +164,18 @@ class Cell < ApplicationRecord
   end
 
   def self.game_board
-    GAME_BOARD
+    board = []
+    counter = 1
+
+    10.times do
+      inner_array = []
+      10.times do
+        inner_array.push(Cell.find_by_id(counter))
+        counter += 1
+      end
+      game_board.push(inner_array)
+    end
+    board
   end
 
 end
