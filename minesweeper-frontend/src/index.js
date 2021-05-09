@@ -22,7 +22,7 @@ function startTimer() {
     let minutes = parseInt(timer.innerText.split(":")[0])
     let seconds = parseInt(timer.innerText.split(":")[1])
 
-    if (seconds < 60) {
+    if (seconds < 59) {
       seconds += 1
       if (seconds == 0) {
         seconds = "00"

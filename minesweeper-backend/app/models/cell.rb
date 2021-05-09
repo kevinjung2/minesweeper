@@ -5,10 +5,10 @@ class Cell < ApplicationRecord
 
   BOMB = "&#128163;"
   FLAG = "&#128681;"
-  @@mines = []
-  @@board = []
 
   def self.new_game
+    @@board = []
+    @@mines = []
     self.all.each do |cell|
       cell.bomb = false
       cell.number = 0
@@ -22,7 +22,7 @@ class Cell < ApplicationRecord
 
   def self.pick_mines
     @@mines = Cell.all.sample(15)
-    @@mines.each do |cell|
+    mines.each do |cell|
       cell.bomb = true
       cell.save
     end
@@ -38,9 +38,10 @@ class Cell < ApplicationRecord
   end
 
   def self.fill_contents
-    @@mines.each do |cell|
+    mines.each do |cell|
       row_number = cell.location.split("-")[0].to_i
       column_number = cell.location.split("-")[1].to_i
+
       if row_number == 0
         #check only below
         if column_number == 0

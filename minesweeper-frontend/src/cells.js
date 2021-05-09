@@ -60,6 +60,10 @@ class Cell {
         "Accept": "application/json"
     }})
     timer.innerText = "00:00"
+    for (const td of tds) {
+      td.innerHTML = "&nbsp;"
+      td.className = ""
+    }
   }
 
   static toggleFlag() {
@@ -74,6 +78,26 @@ class Cell {
       for (const td of tds) {
         td.removeEventListener('click', Cell.addFlag)
         td.addEventListener('click', Cell.search)
+      }
+    }
+  }
+
+  static addFlag(e) {
+    if (e.target.className === "flag") {
+      e.target.innerHTML = "&nbsp;"
+      e.target.className = ""
+      let flags = parseInt(flagButton.innerText.split(":")[1])
+      flags += 1
+      flagButton.innerText = `🚩 : ${flags}`
+    } else if (e.target.className === "clicked") {
+
+    }else {
+      let flags = parseInt(flagButton.innerText.split(":")[1])
+      if (flags > 0) {
+        flags -= 1
+        flagButton.innerText = `🚩 : ${flags}`
+        e.target.innerText = "🚩"
+        e.target.className = "flag"
       }
     }
   }
