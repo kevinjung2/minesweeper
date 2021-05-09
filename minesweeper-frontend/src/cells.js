@@ -52,5 +52,6 @@ class Cell {
 
   static newGame() {
     fetch('http://localhost:3000/cells/new')
+    timer.innerText = "00:00"
   }
 }
