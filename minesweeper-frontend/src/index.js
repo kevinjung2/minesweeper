@@ -8,7 +8,6 @@ let m = []
 let gameTimer;
 
 document.addEventListener('DOMContentLoaded', Cell.newGame)
-window.addEventListener('click', Cell.gameEnd)
 newGameButton.addEventListener('click', Cell.newGame)
 flagButton.addEventListener('click', Cell.toggleFlag)
 for (const td of tds) {

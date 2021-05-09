@@ -29,6 +29,7 @@ class Cell {
     } else {
       td.className = 'clicked'
     }
+    Cell.gameEnd()
   }
 
   static fetchCell(location) {
@@ -104,6 +105,7 @@ class Cell {
         flagButton.innerText = `🚩 : ${flags}`
         e.target.innerText = "🚩"
         e.target.className = "flag"
+        Cell.gameEnd()
       }
     }
   }
