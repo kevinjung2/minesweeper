@@ -20,6 +20,7 @@ class Cell {
   appendCell() {
     let td = document.getElementById(`${this.location}`)
     td.innerText = this.display()
+    unclicked -= 1
     if (this.bomb) {
       td.className = 'bomb'
     } else {
@@ -60,6 +61,7 @@ class Cell {
         "Accept": "application/json"
     }})
     timer.innerText = "00:00"
+    unclicked = 100
     for (const td of tds) {
       td.innerHTML = "&nbsp;"
       td.className = ""
@@ -100,6 +102,33 @@ class Cell {
         e.target.className = "flag"
       }
     }
+  }
+
+  static gameEnd() {
+    for (const td of tds) {
+      if (td.className === 'bomb') {
+        Cell.lose()
+      }
+    }
+    if (flagButton.innerText === "🚩 : 0") {
+      fetch("http://localhost:3000/cells")
+      .then(jsonToJS)
+      .then(Cell.checkFlags)
+    } else if (unclicked === 15) {
+      Cell.win()
+    }
+  }
+
+  static win() {
+
+  }
+
+  static lose() {
+
+  }
+
+  static checkFlags(mines) {
+    
   }
 
 }

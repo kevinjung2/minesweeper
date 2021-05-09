@@ -3,9 +3,11 @@ const newGameButton = document.getElementById('ng')
 const flagButton = document.getElementById('flag')
 const leaderboard = document.getElementById('lb')
 const timer = document.getElementById('timer')
+const unclicked = 100
 let gameTimer;
 
 document.addEventListener('DOMContentLoaded', Cell.newGame)
+window.addEventListener('click', Cell.gameEnd)
 newGameButton.addEventListener('click', Cell.newGame)
 flagButton.addEventListener('click', Cell.toggleFlag)
 for (const td of tds) {
