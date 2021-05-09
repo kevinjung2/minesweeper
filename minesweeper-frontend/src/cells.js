@@ -38,14 +38,19 @@ class Cell {
     if (Array.isArray(cells)) {
       for (const cell of cells) {
         newCell = new Cell(cell)
+        newCell.appendCell()
       }
     } else {
       newCell = new Cell(cells)
+      newCell.appendCell()
     }
-    newCell.appendCell()
   }
 
   static search(e) {
     Cell.fetchCell(e.target.id)
+  }
+
+  static newGame() {
+    
   }
 }

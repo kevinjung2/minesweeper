@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2021_05_07_061532) do
     t.boolean "bomb"
     t.integer "number"
     t.string "location"
+    t.boolean "visited"
   end
 
   create_table "scores", force: :cascade do |t|

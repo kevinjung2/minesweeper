@@ -12,6 +12,7 @@ class Cell < ApplicationRecord
     self.all.each do |cell|
       cell.bomb = false
       cell.number = 0
+      cell.visited = false
       cell.save
     end
     pick_mines
@@ -200,16 +201,19 @@ class Cell < ApplicationRecord
     end
   end
 
-  def self.floodFill(startingCell, returned_cells, queue = [])
+  def self.floodFill(startingCell, returned_cells = [], queue = [])
+    # binding.pry
     startingCell.visited = true
+    startingCell.save
     returned_cells.push(startingCell) unless returned_cells.include?(startingCell)
     if startingCell.number == 0
-      row_number = cell.location.split("-")[0].to_i
-      column_number = cell.location.split("-")[1].to_i
+      row_number = startingCell.location.split("-")[0].to_i
+      column_number = startingCell.location.split("-")[1].to_i
       up = row_number - 1
       down = row_number + 1
       left = column_number - 1
       right = column_number + 1
+      # binding.pry
       if row_number == 0
         #check only below
         if column_number == 0
@@ -368,7 +372,9 @@ class Cell < ApplicationRecord
         end
       end
     end
+    # binding.pry
     self.floodFill(queue.shift, returned_cells, queue) unless queue.empty?
+    # binding.pry
     returned_cells
   end
 
