@@ -10,6 +10,7 @@ let gameTimer;
 document.addEventListener('DOMContentLoaded', Cell.newGame)
 newGameButton.addEventListener('click', Cell.newGame)
 flagButton.addEventListener('click', Cell.toggleFlag)
+leaderboard.addEventListener('click', getLeaderboard)
 for (const td of tds) {
   td.className = ""
   td.addEventListener('click', Cell.search)
@@ -43,6 +44,18 @@ function startTimer() {
     timer.innerText = `${minutes}:${seconds}`
   }, 1000)
 }
-
+function getLeaderboard() {
+  fetch('http://localhost:3000/scores')
+  .then(jsonToJS)
+  .then(openLeaderboard)
+}
+function openLeaderboard(leaderboard) {
+  let scoreboard = ""
+  for (const score of leaderboard) {
+    let newScore = new Score(score)
+    scoreboard += `${newScore.name}: ${newScore.time} \n`
+  }
+  swal("Leaderboard", scoreboard, "info")
+}
 
 startTimer()

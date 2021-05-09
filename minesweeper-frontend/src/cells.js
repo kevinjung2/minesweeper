@@ -139,11 +139,8 @@ class Cell {
           "Content-Type": "application/json",
           "Accept": "application/json"
         },
-        body: {
-          "user": user,
-          "score": score
-        }
-      })
+        body: JSON.stringify({"user": user, "score": score})
+      }).then(getLeaderboard)
     }
   }
 
