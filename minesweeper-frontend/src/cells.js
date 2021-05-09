@@ -64,6 +64,8 @@ class Cell {
         "Content-Type": "application/json",
         "Accept": "application/json"
     }})
+    clearInterval(gameTimer)
+    startTimer()
     timer.innerText = "00:00"
     unclicked = 100
     flagButton.innerText = "🚩 : 15"
@@ -125,7 +127,24 @@ class Cell {
   }
 
   static win() {
-    console.log("You Won")
+    clearInterval(gameTimer)
+    let score = timer.innerText
+    let user = prompt("Enter your name for the Leaderboards:")
+    if (user === null || user === "") {
+      alert("Score Not Saved =(")
+    } else {
+      fetch("http://localhost:3000/scores", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: {
+          "user": user,
+          "score": score
+        }
+      })
+    }
   }
 
   static lose() {
