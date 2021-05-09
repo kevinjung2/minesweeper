@@ -3,7 +3,8 @@ const newGameButton = document.getElementById('ng')
 const flagButton = document.getElementById('flag')
 const leaderboard = document.getElementById('lb')
 const timer = document.getElementById('timer')
-const unclicked = 100
+let unclicked = 100
+let m = []
 let gameTimer;
 
 document.addEventListener('DOMContentLoaded', Cell.newGame)

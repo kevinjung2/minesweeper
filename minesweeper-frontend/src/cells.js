@@ -11,7 +11,7 @@ class Cell {
     if (this.bomb) {
       return "💣"
     } else if (this.number === 0) {
-      return " "
+      return "&nbsp"
     } else {
       return this.number
     }
@@ -19,10 +19,13 @@ class Cell {
 
   appendCell() {
     let td = document.getElementById(`${this.location}`)
-    td.innerText = this.display()
-    unclicked -= 1
+    td.innerHTML = this.display()
+    if (td.className === "") {
+      unclicked -= 1
+    }
     if (this.bomb) {
       td.className = 'bomb'
+      Cell.lose()
     } else {
       td.className = 'clicked'
     }
@@ -62,6 +65,7 @@ class Cell {
     }})
     timer.innerText = "00:00"
     unclicked = 100
+    flagButton.innerText = "🚩 : 15"
     for (const td of tds) {
       td.innerHTML = "&nbsp;"
       td.className = ""
@@ -105,30 +109,39 @@ class Cell {
   }
 
   static gameEnd() {
-    for (const td of tds) {
-      if (td.className === 'bomb') {
-        Cell.lose()
-      }
-    }
     if (flagButton.innerText === "🚩 : 0") {
-      fetch("http://localhost:3000/cells")
-      .then(jsonToJS)
-      .then(Cell.checkFlags)
+      if (m.length === 0) {
+        fetch("http://localhost:3000/cells")
+        .then(jsonToJS)
+        .then(Cell.checkFlags)
+      } else {
+        Cell.checkFlags(m)
+      }
     } else if (unclicked === 15) {
       Cell.win()
     }
   }
 
   static win() {
-
+    console.log("You Won")
   }
 
   static lose() {
-
+    console.log("You Lose")
   }
 
   static checkFlags(mines) {
-    
+    m = mines
+    for (const mine of mines) {
+      let bomb = new Cell(mine)
+      let cell = document.getElementById(`${bomb.location}`)
+      if (cell.className === "flag") {
+
+      } else {
+        return
+      }
+    }
+    Cell.win()
   }
 
 }
