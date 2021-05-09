@@ -50,10 +50,12 @@ function getLeaderboard() {
   .then(openLeaderboard)
 }
 function openLeaderboard(leaderboard) {
+  let counter = 1
   let scoreboard = ""
   for (const score of leaderboard) {
     let newScore = new Score(score)
-    scoreboard += `${newScore.name}: ${newScore.time} \n`
+    scoreboard += `${counter}. ${newScore.user}: ${newScore.time} \n`
+    counter ++
   }
   swal("Leaderboard", scoreboard, "info")
 }

@@ -131,7 +131,7 @@ class Cell {
     let score = timer.innerText
     let user = prompt("Enter your name for the Leaderboards:")
     if (user === null || user === "") {
-      alert("Score Not Saved =(")
+      swal({title: "Score Not Saved =(", icon: "error", button: "Too Bad"})
     } else {
       fetch("http://localhost:3000/scores", {
         method: "POST",
@@ -145,7 +145,9 @@ class Cell {
   }
 
   static lose() {
-    console.log("You Lose")
+    clearInterval(gameTimer)
+    swal({title: "Game Over", icon: "error", button: "Shucks"})
+    .then(Cell.newGame)
   }
 
   static checkFlags(mines) {
