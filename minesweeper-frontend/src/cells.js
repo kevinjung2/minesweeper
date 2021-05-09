@@ -51,7 +51,12 @@ class Cell {
   }
 
   static newGame() {
-    fetch('http://localhost:3000/cells/new')
+    fetch('http://localhost:3000/cells', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+    }})
     timer.innerText = "00:00"
   }
 }

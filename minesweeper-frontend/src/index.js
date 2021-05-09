@@ -18,18 +18,22 @@ function jsonToJS(resp) {
 }
 function startTimer() {
   gameTimer = setInterval(function() {
-    let minutes = parseInt(timer.innerText.split("-")[0])
-    let seconds = parseInt(timer.innerText.split("-")[1])
+    let minutes = parseInt(timer.innerText.split(":")[0])
+    let seconds = parseInt(timer.innerText.split(":")[1])
 
     if (seconds < 60) {
       seconds += 1
-      if (seconds < 10) {
+      if (seconds == 0) {
+        seconds = "00"
+      } else if (seconds < 10) {
         seconds = `0${seconds}`
       }
     } else {
-      seconds = 0
+      seconds = "00"
       minutes += 1
-      if (minutes < 10) {
+      if (minutes == 0) {
+        minutes = "00"
+      } else if(minutes < 10) {
         minutes = `0${minutes}`
       }
     }

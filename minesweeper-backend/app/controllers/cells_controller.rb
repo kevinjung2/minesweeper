@@ -8,7 +8,7 @@ class CellsController < ApplicationController
     render json: Cell.returned_cells(params[:id]), except: [:created_at, :updated_at, :visited]
   end
 
-  def new
+  def create
     Cell.new_game
   end
 end
