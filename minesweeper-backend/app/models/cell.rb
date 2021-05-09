@@ -190,7 +190,6 @@ class Cell < ApplicationRecord
   end
 
   def self.returned_cells(location)
-    returned_cells = []
     startingCell = Cell.find_by(location: location)
     if startingCell.bomb
       return self.mines
@@ -201,8 +200,176 @@ class Cell < ApplicationRecord
     end
   end
 
-  def self.floodFill(startingCell)
-
+  def self.floodFill(startingCell, returned_cells, queue = [])
+    startingCell.visited = true
+    returned_cells.push(startingCell) unless returned_cells.include?(startingCell)
+    if startingCell.number == 0
+      row_number = cell.location.split("-")[0].to_i
+      column_number = cell.location.split("-")[1].to_i
+      up = row_number - 1
+      down = row_number + 1
+      left = column_number - 1
+      right = column_number + 1
+      if row_number == 0
+        #check only below
+        if column_number == 0
+          #check only below and to the right
+          r = game_board[row_number][right]
+          below = game_board[down][column_number]
+          below_r = game_board[down][right]
+          returned_cells.push(r) unless returned_cells.include?(r)
+          queue.push(r) unless r.visited || queue.include?(r)
+          returned_cells.push(below) unless returned_cells.include?(below)
+          queue.push(below) unless below.visited || queue.include?(below)
+          returned_cells.push(below_r) unless returned_cells.include?(below_r)
+          queue.push(below_r) unless below_r.visited || queue.include?(below_r)
+        elsif column_number > 0 && column_number < 9
+          #check below and both sides
+          l = game_board[row_number][left]
+          r = game_board[row_number][right]
+          below = game_board[down][column_number]
+          below_r = game_board[down][right]
+          below_l = game_board[down][left]
+          returned_cells.push(r) unless returned_cells.include?(r)
+          queue.push(r) unless r.visited || queue.include?(r)
+          returned_cells.push(l) unless returned_cells.include?(l)
+          queue.push(l) unless l.visited || queue.include?(l)
+          returned_cells.push(below) unless returned_cells.include?(below)
+          queue.push(below) unless below.visited || queue.include?(below)
+          returned_cells.push(below_r) unless returned_cells.include?(below_r)
+          queue.push(below_r) unless below_r.visited || queue.include?(below_r)
+          returned_cells.push(below_l) unless returned_cells.include?(below_l)
+          queue.push(below_l) unless below_l.visited || queue.include?(below_l)
+        elsif column_number == 9
+          #check only below and to the left
+          l = game_board[row_number][left]
+          below = game_board[down][column_number]
+          below_l = game_board[down][left]
+          returned_cells.push(l) unless returned_cells.include?(l)
+          queue.push(l) unless l.visited || queue.include?(l)
+          returned_cells.push(below) unless returned_cells.include?(below)
+          queue.push(below) unless below.visited || queue.include?(below)
+          returned_cells.push(below_l) unless returned_cells.include?(below_l)
+          queue.push(below_l) unless below_l.visited || queue.include?(below_l)
+        end
+      elsif row_number > 0 && row_number < 9
+        #check above and below
+        if column_number == 0
+          #check above and below only to the right
+          r = game_board[row_number][right]
+          below = game_board[down][column_number]
+          below_r = game_board[down][right]
+          above = game_board[up][column_number]
+          above_r = game_board[up][right]
+          #checks directly to the right
+          returned_cells.push(r) unless returned_cells.include?(r)
+          queue.push(r) unless r.visited || queue.include?(r)
+          #checks down and diagonal to the right
+          returned_cells.push(below) unless returned_cells.include?(below)
+          queue.push(below) unless below.visited || queue.include?(below)
+          returned_cells.push(below_r) unless returned_cells.include?(below_r)
+          queue.push(below_r) unless below_r.visited || queue.include?(below_r)
+          #checks up and diagonal to the right
+          returned_cells.push(above) unless returned_cells.include?(above)
+          queue.push(above) unless above.visited || queue.include?(above)
+          returned_cells.push(above_r) unless returned_cells.include?(above_r)
+          queue.push(above_r) unless above_r.visited || queue.include?(above_r)
+        elsif column_number > 0 && column_number < 9
+          #check above and below and both sides
+          r = game_board[row_number][right]
+          l = game_board[row_number][left]
+          below = game_board[down][column_number]
+          below_r = game_board[down][right]
+          below_l = game_board[down][left]
+          above = game_board[up][column_number]
+          above_r = game_board[up][right]
+          above_l = game_board[up][left]
+          #checks directly to the left and right
+          returned_cells.push(r) unless returned_cells.include?(r)
+          queue.push(r) unless r.visited || queue.include?(r)
+          returned_cells.push(l) unless returned_cells.include?(l)
+          queue.push(l) unless l.visited || queue.include?(l)
+          #checks down and diagonal
+          returned_cells.push(below) unless returned_cells.include?(below)
+          queue.push(below) unless below.visited || queue.include?(below)
+          returned_cells.push(below_r) unless returned_cells.include?(below_r)
+          queue.push(below_r) unless below_r.visited || queue.include?(below_r)
+          returned_cells.push(below_l) unless returned_cells.include?(below_l)
+          queue.push(below_l) unless below_l.visited || queue.include?(below_l)
+          #checks up and diagonal
+          returned_cells.push(above) unless returned_cells.include?(above)
+          queue.push(above) unless above.visited || queue.include?(above)
+          returned_cells.push(above_r) unless returned_cells.include?(above_r)
+          queue.push(above_r) unless above_r.visited || queue.include?(above_r)
+          returned_cells.push(above_l) unless returned_cells.include?(above_l)
+          queue.push(above_l) unless above_l.visited || queue.include?(above_l)
+        elsif column_number == 9
+          #check above and below only to the left
+          l = game_board[row_number][left]
+          below = game_board[down][column_number]
+          below_l = game_board[down][left]
+          above = game_board[up][column_number]
+          above_l = game_board[up][left]
+          #checks directly to the left
+          returned_cells.push(l) unless returned_cells.include?(l)
+          queue.push(l) unless l.visited || queue.include?(l)
+          #checks down and diagonal to the left
+          returned_cells.push(below) unless returned_cells.include?(below)
+          queue.push(below) unless below.visited || queue.include?(below)
+          returned_cells.push(below_l) unless returned_cells.include?(below_l)
+          queue.push(below_l) unless below_l.visited || queue.include?(below_l)
+          #checks up and diagonal to the left
+          returned_cells.push(above) unless returned_cells.include?(above)
+          queue.push(above) unless above.visited || queue.include?(above)
+          returned_cells.push(above_l) unless returned_cells.include?(above_l)
+          queue.push(above_l) unless above_l.visited || queue.include?(above_l)
+        end
+      elsif row_number == 9
+        #check only above
+        if column_number == 0
+          #check only above and to the right
+          r = game_board[row_number][right]
+          above = game_board[up][column_number]
+          above_r = game_board[up][right]
+          returned_cells.push(r) unless returned_cells.include?(r)
+          queue.push(r) unless r.visited || queue.include?(r)
+          returned_cells.push(above) unless returned_cells.include?(above)
+          queue.push(above) unless above.visited || queue.include?(above)
+          returned_cells.push(above_r) unless returned_cells.include?(above_r)
+          queue.push(above_r) unless above_r.visited || queue.include?(above_r)
+        elsif column_number > 0 && column_number < 9
+          #check above and both sides
+          r = game_board[row_number][right]
+          l = game_board[row_number][left]
+          above = game_board[up][column_number]
+          above_r = game_board[up][right]
+          above_l = game_board[up][left]
+          returned_cells.push(r) unless returned_cells.include?(r)
+          queue.push(r) unless r.visited || queue.include?(r)
+          returned_cells.push(l) unless returned_cells.include?(l)
+          queue.push(l) unless l.visited || queue.include?(l)
+          returned_cells.push(above) unless returned_cells.include?(above)
+          queue.push(above) unless above.visited || queue.include?(above)
+          returned_cells.push(above_r) unless returned_cells.include?(above_r)
+          queue.push(above_r) unless above_r.visited || queue.include?(above_r)
+          returned_cells.push(above_l) unless returned_cells.include?(above_l)
+          queue.push(above_l) unless above_l.visited || queue.include?(above_l)
+        elsif column_number == 9
+          #check only above and to the left
+          l = game_board[row_number][left]
+          above = game_board[up][column_number]
+          above_l = game_board[up][left]
+          returned_cells.push(l) unless returned_cells.include?(l)
+          queue.push(l) unless l.visited || queue.include?(l)
+          returned_cells.push(above) unless returned_cells.include?(above)
+          queue.push(above) unless above.visited || queue.include?(above)
+          returned_cells.push(above_l) unless returned_cells.include?(above_l)
+          queue.push(above_l) unless above_l.visited || queue.include?(above_l)
+        end
+      end
+    end
+    self.floodFill(queue.shift, returned_cells, queue) unless queue.empty?
+    returned_cells
   end
 
 end
