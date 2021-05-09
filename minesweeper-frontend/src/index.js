@@ -9,6 +9,7 @@ document.addEventListener('DOMContentLoaded', Cell.newGame)
 newGameButton.addEventListener('click', Cell.newGame)
 flagButton.addEventListener('click', Cell.toggleFlag)
 for (const td of tds) {
+  td.className = ""
   td.addEventListener('click', Cell.search)
 }
 

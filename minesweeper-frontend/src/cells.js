@@ -47,7 +47,9 @@ class Cell {
   }
 
   static search(e) {
-    Cell.fetchCell(e.target.id)
+    if (e.target.className == "") {
+      Cell.fetchCell(e.target.id)
+    }
   }
 
   static newGame() {
@@ -59,4 +61,21 @@ class Cell {
     }})
     timer.innerText = "00:00"
   }
+
+  static toggleFlag() {
+    if (flagButton.className === "") {
+      flagButton.className = "on"
+      for (const td of tds) {
+        td.removeEventListener('click', Cell.search)
+        td.addEventListener('click', Cell.addFlag)
+      }
+    } else if (flagButton.className === "on") {
+      flagButton.className = ""
+      for (const td of tds) {
+        td.removeEventListener('click', Cell.addFlag)
+        td.addEventListener('click', Cell.search)
+      }
+    }
+  }
+
 }
