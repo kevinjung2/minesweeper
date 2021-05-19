@@ -63,7 +63,10 @@ class Cell {
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json"
-    }})
+    }}).then(Cell.setupGame)
+  }
+
+  static setupGame() {
     clearInterval(gameTimer)
     startTimer()
     timer.innerText = "00:00"
