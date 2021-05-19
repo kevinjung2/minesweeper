@@ -5,7 +5,8 @@ class Cell < ApplicationRecord
 
   BOMB = "&#128163;"
   FLAG = "&#128681;"
-
+  @@board = []
+  
   def self.new_game
     @@board = []
     @@mines = []
