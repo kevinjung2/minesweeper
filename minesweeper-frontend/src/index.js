@@ -61,6 +61,4 @@ function openLeaderboard(leaderboard) {
   swal("Leaderboard", scoreboard, "info")
 }
 
-testChangeHere
-
 startTimer()
