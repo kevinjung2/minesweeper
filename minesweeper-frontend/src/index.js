@@ -49,6 +49,7 @@ function getLeaderboard() {
   .then(jsonToJS)
   .then(openLeaderboard)
 }
+
 function openLeaderboard(leaderboard) {
   let counter = 1
   let scoreboard = ""
@@ -59,5 +60,7 @@ function openLeaderboard(leaderboard) {
   }
   swal("Leaderboard", scoreboard, "info")
 }
+
+testChangeHere
 
 startTimer()
