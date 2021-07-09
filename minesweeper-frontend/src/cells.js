@@ -28,6 +28,14 @@ class Cell {
       Cell.lose()
     } else {
       td.className = 'clicked'
+      if (this.number === 1) td.className = "one"
+      if (this.number === 2) td.className = "two"
+      if (this.number === 3) td.className = "three"
+      if (this.number === 4) td.className = "four"
+      if (this.number === 5) td.className = "five"
+      if (this.number === 6) td.className = "six"
+      if (this.number === 7) td.className = "seven"
+      if (this.number === 8) td.className = "eight"
     }
     Cell.gameEnd()
   }
