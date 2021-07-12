@@ -1,3 +1,6 @@
+//TODO: fix flag button
+//FUTURE: add keybind for switching to flag/ support for right-click
+
 const tds = document.getElementsByTagName('td')
 const newGameButton = document.getElementById('ng')
 const flagButton = document.getElementById('flag')
