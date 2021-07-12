@@ -1,5 +1,7 @@
 //TODO: fix flag button
 //FUTURE: add keybind for switching to flag/ support for right-click
+//FUTURE: add loading screen
+//FUTURE: make flag button same height as others
 
 const tds = document.getElementsByTagName('td')
 const newGameButton = document.getElementById('ng')

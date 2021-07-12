@@ -63,7 +63,23 @@
   padding: 1em 2em;
   letter-spacing: 0.05rem;
 
-  &:focus { outline: 2px dotted #013220; }
+  // &:focus { outline: 2px dotted #013220; }
+}
+
+.draw-flag-border {
+  @include btn-border-drawing(#98c379, #013220, 4px, bottom, right);
+}
+
+.flag {
+  background: none;
+  border: none;
+  cursor: pointer;
+  line-height: 1.5;
+  font: 700 1.2rem 'Roboto Slab', sans-serif;
+  padding: 1em 2em;
+  letter-spacing: 0.05rem;
+
+  // &:focus { outline: 2px dotted #98c379; }
 }
 
 table {
