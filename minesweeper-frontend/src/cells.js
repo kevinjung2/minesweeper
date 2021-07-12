@@ -88,12 +88,12 @@ class Cell {
 
   static toggleFlag() {
     if (flagButton.className === "btn draw-border") {
-      flagButton.className = "flag draw-flag-border"
+      flagButton.className = "flag-btn draw-flag-border"
       for (const td of tds) {
         td.removeEventListener('click', Cell.search)
         td.addEventListener('click', Cell.addFlag)
       }
-    } else if (flagButton.className === "flag draw-flag-border") {
+    } else if (flagButton.className === "flag-btn draw-flag-border") {
       flagButton.className = "btn draw-border"
       for (const td of tds) {
         td.removeEventListener('click', Cell.addFlag)
@@ -109,9 +109,7 @@ class Cell {
       let flags = parseInt(flagButton.innerText.split(":")[1])
       flags += 1
       flagButton.innerText = `🚩 : ${flags}`
-    } else if (e.target.className === "clicked") {
-
-    }else {
+    } else if (e.target.className === "") {
       let flags = parseInt(flagButton.innerText.split(":")[1])
       if (flags > 0) {
         flags -= 1
