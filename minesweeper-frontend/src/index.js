@@ -1,4 +1,3 @@
-//FUTURE: add keybind for switching to flag/ support for right-click
 //FUTURE: add loading screen
 //FUTURE: make flag button same height as others
 
@@ -19,19 +18,17 @@ document.body.onkeyup = function(e){
       Cell.toggleFlag()
   }
 }
+
 leaderboard.addEventListener('click', getLeaderboard)
-document.addEventListener('contextmenu', event => event.preventDefault());
 for (const td of tds) {
   td.className = ""
-  td.addEventListener('click', e => {
-    debugger
-    if (e.button === 2) {
-      Cell.addFlag(e)
-    } else {
-      Cell.search
-    }
-  })
+  td.addEventListener('click', Cell.search)
 }
+
+document.addEventListener('contextmenu', e => {
+  event.preventDefault()
+  Cell.addFlag(e)
+});
 
 
 function jsonToJS(resp) {

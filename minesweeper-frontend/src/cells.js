@@ -103,20 +103,22 @@ class Cell {
   }
 
   static addFlag(e) {
-    if (e.target.className === "flag") {
-      e.target.innerHTML = "&nbsp;"
-      e.target.className = ""
-      let flags = parseInt(flagButton.innerText.split(":")[1])
-      flags += 1
-      flagButton.innerText = `🚩 : ${flags}`
-    } else if (e.target.className === "") {
-      let flags = parseInt(flagButton.innerText.split(":")[1])
-      if (flags > 0) {
-        flags -= 1
+    if (e.target.tagName == "TD") {
+      if (e.target.className === "flag") {
+        e.target.innerHTML = "&nbsp;"
+        e.target.className = ""
+        let flags = parseInt(flagButton.innerText.split(":")[1])
+        flags += 1
         flagButton.innerText = `🚩 : ${flags}`
-        e.target.innerText = "🚩"
-        e.target.className = "flag"
-        Cell.gameEnd()
+      } else if (e.target.className === "") {
+        let flags = parseInt(flagButton.innerText.split(":")[1])
+        if (flags > 0) {
+          flags -= 1
+          flagButton.innerText = `🚩 : ${flags}`
+          e.target.innerText = "🚩"
+          e.target.className = "flag"
+          Cell.gameEnd()
+        }
       }
     }
   }
