@@ -1,4 +1,3 @@
-//TODO: fix flag button
 //FUTURE: add keybind for switching to flag/ support for right-click
 //FUTURE: add loading screen
 //FUTURE: make flag button same height as others
@@ -15,10 +14,23 @@ let gameTimer;
 document.addEventListener('DOMContentLoaded', Cell.newGame)
 newGameButton.addEventListener('click', Cell.newGame)
 flagButton.addEventListener('click', Cell.toggleFlag)
+document.body.onkeyup = function(e){
+  if(e.keyCode == 32){
+      Cell.toggleFlag()
+  }
+}
 leaderboard.addEventListener('click', getLeaderboard)
+document.addEventListener('contextmenu', event => event.preventDefault());
 for (const td of tds) {
   td.className = ""
-  td.addEventListener('click', Cell.search)
+  td.addEventListener('click', e => {
+    debugger
+    if (e.button === 2) {
+      Cell.addFlag(e)
+    } else {
+      Cell.search
+    }
+  })
 }
 
 
