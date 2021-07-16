@@ -71,7 +71,14 @@ class Cell {
       headers: {
         "Content-Type": "application/json",
         "Accept": "application/json"
-    }}).then(Cell.setupGame)
+    }})
+    .then(() => {
+      Cell.setupGame()
+      console.log("finish setup");
+      hideLoad()
+    })
+    console.log("start setup");
+    showLoad()
   }
 
   static setupGame() {

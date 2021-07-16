@@ -1,4 +1,3 @@
-//FUTURE: add loading screen
 //FUTURE: make flag button same height as others
 
 const tds = document.getElementsByTagName('td')
@@ -6,6 +5,7 @@ const newGameButton = document.getElementById('ng')
 const flagButton = document.getElementById('flag')
 const leaderboard = document.getElementById('lb')
 const timer = document.getElementById('timer')
+let loading = document.getElementById('loading-wrapper')
 let unclicked = 100
 let m = []
 let gameTimer;
@@ -73,6 +73,14 @@ function openLeaderboard(leaderboard) {
     counter ++
   }
   swal("Leaderboard", scoreboard, "info")
+}
+
+function showLoad() {
+  loading.style.display = "flex"
+}
+
+function hideLoad() {
+  loading.style.display = "none"
 }
 
 startTimer()
